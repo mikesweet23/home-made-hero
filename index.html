@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#05070a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Home Hero">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-192.svg">
+  <link rel="stylesheet" href="styles.css">
+  <title>Home Made Hero</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="top">
+      <div>
+        <p class="eyebrow">5 week training block</p>
+        <h1>Home Made Hero</h1>
+        <p class="subtitle">Daily full body training with automatic workout rotation.</p>
+      </div>
+      <button id="wakeLockBtn" class="icon-btn" title="Keep screen awake">◉</button>
+    </header>
+
+    <section class="hero-grid">
+      <article class="glass timer-card">
+        <div class="card-topline">
+          <span>Workout timer</span>
+          <span id="workoutState">Stopped</span>
+        </div>
+        <div id="workoutTimer" class="big-time">00:00</div>
+        <div class="button-row">
+          <button id="startWorkout" class="primary">Start</button>
+          <button id="pauseWorkout">Pause</button>
+          <button id="resetWorkout" class="ghost">Reset</button>
+        </div>
+      </article>
+
+      <article class="glass timer-card" id="restCard">
+        <div class="card-topline">
+          <span>Rest timer</span>
+          <span>60 seconds</span>
+        </div>
+        <div id="restTimer" class="big-time neon">01:00</div>
+        <div class="button-row">
+          <button id="startRest" class="primary">Start rest</button>
+          <button id="addRest">+15 sec</button>
+          <button id="resetRest" class="ghost">Reset</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="glass control-panel">
+      <div class="day-row">
+        <div>
+          <p class="eyebrow">Current training day</p>
+          <div class="day-title">
+            <strong id="dayLabel">Day 1 of 35</strong>
+            <span id="dayStatus" class="status-pill">Planned</span>
+          </div>
+        </div>
+        <div class="stepper">
+          <button id="previousDay" aria-label="Previous day">‹</button>
+          <button id="nextDay" aria-label="Next day">›</button>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <label>
+          Workout
+          <select id="workoutSelect"></select>
+        </label>
+        <label>
+          Session mode
+          <select id="modeSelect">
+            <option value="standard">Standard: 2 sets</option>
+            <option value="recovery">Recovery: 1 set</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="progress-line">
+        <div>
+          <span>Session progress</span>
+          <strong id="progressText">0 / 18 sets</strong>
+        </div>
+        <div class="progress-track"><div id="progressBar"></div></div>
+      </div>
+    </section>
+
+    <nav class="section-tabs">
+      <button class="tab active" data-view="session">Today</button>
+      <button class="tab" data-view="plan">35 day plan</button>
+      <button class="tab" data-view="history">History</button>
+      <button class="tab" data-view="backup">Backup</button>
+    </nav>
+
+    <main>
+      <section id="sessionView" class="view active">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Today’s session</p>
+            <h2 id="workoutTitle"></h2>
+          </div>
+          <button id="clearSession" class="ghost compact">Clear</button>
+        </div>
+        <p id="workoutIntro" class="section-copy"></p>
+        <div id="exerciseList" class="exercise-list"></div>
+        <div class="session-actions">
+          <button id="completeSession" class="primary wide">Complete workout</button>
+        </div>
+      </section>
+
+      <section id="planView" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Five week programme</p>
+            <h2>35 day tracker</h2>
+          </div>
+        </div>
+        <p class="section-copy">Tap any day to open it. Every fourth day defaults to recovery mode.</p>
+        <div id="planGrid" class="plan-grid"></div>
+      </section>
+
+      <section id="historyView" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Completed sessions</p>
+            <h2>Workout history</h2>
+          </div>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+
+      <section id="backupView" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Your data</p>
+            <h2>Backup and restore</h2>
+          </div>
+        </div>
+        <div class="backup-grid">
+          <article class="glass inner-card">
+            <h3>Export progress</h3>
+            <p>Download all completed sets, notes, timings and history as a small JSON file.</p>
+            <button id="exportData" class="primary">Export backup</button>
+          </article>
+          <article class="glass inner-card">
+            <h3>Import progress</h3>
+            <p>Restore a previous backup on this or another device.</p>
+            <label class="file-button">
+              Choose backup
+              <input id="importData" type="file" accept=".json,application/json">
+            </label>
+          </article>
+          <article class="glass inner-card">
+            <h3>Reset everything</h3>
+            <p>Clears all saved workout progress on this browser.</p>
+            <button id="resetAll" class="danger">Erase data</button>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Train close to failure, but keep 1 to 2 clean reps in reserve on most movements. Stop explosive exercises when speed or technique falls.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
