@@ -1,4 +1,4 @@
-const CACHE = "home-made-hero-v1";
+const CACHE = "home-made-hero-v2";
 const FILES = [
   "./",
   "./index.html",

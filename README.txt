@@ -20,3 +20,10 @@ GITHUB PAGES
 
 IMPORTANT
 The app stores workout history locally in the browser. Use the Backup tab to export your data before clearing Safari data or changing phones.
+
+
+TIMER UPDATE
+- Both timers remain visible while scrolling.
+- Rest completion plays a two-note chime.
+- Rest completion vibrates where supported.
+- A neon-blue glow pulses around the entire screen.

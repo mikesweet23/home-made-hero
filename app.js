@@ -79,6 +79,7 @@ let workoutRunning = false;
 let restInterval = null;
 let restSeconds = 60;
 let wakeLock = null;
+let audioContext = null;
 
 const $ = id => document.getElementById(id);
 
@@ -291,6 +292,7 @@ function drawRest() {
 }
 
 function startRestTimer() {
+  prepareAudio();
   clearInterval(restInterval);
   restSeconds = 60;
   drawRest();
@@ -301,26 +303,63 @@ function startRestTimer() {
   }, 1000);
 }
 
+
+function prepareAudio() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    if (!audioContext) audioContext = new AudioCtx();
+    if (audioContext.state === "suspended") audioContext.resume();
+  } catch {}
+}
+
+function playRestChime() {
+  try {
+    prepareAudio();
+    if (!audioContext) return;
+
+    const now = audioContext.currentTime;
+    const notes = [
+      { frequency: 659.25, start: 0.00, duration: 0.28 },
+      { frequency: 880.00, start: 0.22, duration: 0.42 }
+    ];
+
+    notes.forEach(note => {
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.setValueAtTime(note.frequency, now + note.start);
+      gain.gain.setValueAtTime(0.0001, now + note.start);
+      gain.gain.exponentialRampToValueAtTime(0.16, now + note.start + 0.025);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + note.start + note.duration);
+
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
+      oscillator.start(now + note.start);
+      oscillator.stop(now + note.start + note.duration + 0.03);
+    });
+  } catch {}
+}
+
+function showScreenGlow() {
+  const glow = $("screenGlow");
+  if (!glow) return;
+  glow.classList.remove("active");
+  void glow.offsetWidth;
+  glow.classList.add("active");
+  setTimeout(() => glow.classList.remove("active"), 3800);
+}
+
 function finishRest() {
   clearInterval(restInterval);
   restSeconds = 0;
   drawRest();
   $("restCard").classList.add("flash");
-  setTimeout(() => $("restCard").classList.remove("flash"), 1500);
-  if ("vibrate" in navigator) navigator.vibrate([180, 90, 180]);
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    const ctx = new AudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.frequency.value = 880;
-    gain.gain.setValueAtTime(.1, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .35);
-    osc.start();
-    osc.stop(ctx.currentTime + .35);
-  } catch {}
+  setTimeout(() => $("restCard").classList.remove("flash"), 1800);
+  showScreenGlow();
+  if ("vibrate" in navigator) navigator.vibrate([220, 100, 220, 100, 320]);
+  playRestChime();
 }
 
 function resetRestTimer() {
