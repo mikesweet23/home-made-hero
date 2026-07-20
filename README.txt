@@ -27,3 +27,13 @@ TIMER UPDATE
 - Rest completion plays a two-note chime.
 - Rest completion vibrates where supported.
 - A neon-blue glow pulses around the entire screen.
+
+
+PREMIUM UPDATE
+- Settings menu with sound, volume, vibration, voice, rest length, theme, larger text and wake lock.
+- Animated circular rest countdown.
+- Exercise weight and reps fields.
+- Personal best and progress charts.
+- Body weight and measurement tracking.
+- Completed workout calendar remains in the 35 day plan.
+- Backup/export now includes all new settings, progress and body data.

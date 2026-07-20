@@ -21,7 +21,7 @@
         <h1>Home Made Hero</h1>
         <p class="subtitle">Daily full body training with automatic workout rotation.</p>
       </div>
-      <button id="wakeLockBtn" class="icon-btn" title="Keep screen awake">◉</button>
+      <button id="settingsBtn" class="icon-btn" title="Settings" aria-label="Open settings">⚙</button>
     </header>
 
     <section class="hero-grid timer-dock">
@@ -41,9 +41,15 @@
       <article class="glass timer-card" id="restCard">
         <div class="card-topline">
           <span>Rest timer</span>
-          <span>60 seconds</span>
+          <span id="restDurationLabel">60 seconds</span>
         </div>
-        <div id="restTimer" class="big-time neon">01:00</div>
+        <div class="rest-ring-wrap">
+          <svg class="rest-ring" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ring-track" cx="60" cy="60" r="50"></circle>
+            <circle id="restRingProgress" class="ring-progress" cx="60" cy="60" r="50"></circle>
+          </svg>
+          <div id="restTimer" class="big-time neon ring-time">01:00</div>
+        </div>
         <div class="button-row">
           <button id="startRest" class="primary">Start rest</button>
           <button id="addRest">+15 sec</button>
@@ -94,6 +100,8 @@
       <button class="tab active" data-view="session">Today</button>
       <button class="tab" data-view="plan">35 day plan</button>
       <button class="tab" data-view="history">History</button>
+      <button class="tab" data-view="progress">Progress</button>
+      <button class="tab" data-view="body">Body</button>
       <button class="tab" data-view="backup">Backup</button>
     </nav>
 
@@ -134,7 +142,59 @@
         <div id="historyList" class="history-list"></div>
       </section>
 
-      <section id="backupView" class="view">
+      
+      <section id="progressView" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Strength progress</p>
+            <h2>Personal bests and trends</h2>
+          </div>
+        </div>
+        <div class="field-grid progress-filters">
+          <label>
+            Exercise
+            <select id="progressExercise"></select>
+          </label>
+          <label>
+            Metric
+            <select id="progressMetric">
+              <option value="weight">Weight</option>
+              <option value="reps">Reps</option>
+              <option value="volume">Estimated volume</option>
+            </select>
+          </label>
+        </div>
+        <article class="glass chart-card">
+          <canvas id="progressChart" width="900" height="360"></canvas>
+        </article>
+        <div id="pbList" class="history-list"></div>
+      </section>
+
+      <section id="bodyView" class="view">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Body tracking</p>
+            <h2>Weight and measurements</h2>
+          </div>
+        </div>
+        <article class="glass inner-card body-entry-card">
+          <div class="body-grid">
+            <label>Date<input id="bodyDate" type="date"></label>
+            <label>Weight (kg)<input id="bodyWeight" type="number" step="0.1" min="0"></label>
+            <label>Waist (cm)<input id="bodyWaist" type="number" step="0.1" min="0"></label>
+            <label>Chest (cm)<input id="bodyChest" type="number" step="0.1" min="0"></label>
+            <label>Arms (cm)<input id="bodyArms" type="number" step="0.1" min="0"></label>
+            <label>Thighs (cm)<input id="bodyThighs" type="number" step="0.1" min="0"></label>
+          </div>
+          <button id="saveBodyEntry" class="primary">Save measurement</button>
+        </article>
+        <article class="glass chart-card">
+          <canvas id="bodyChart" width="900" height="360"></canvas>
+        </article>
+        <div id="bodyHistory" class="history-list"></div>
+      </section>
+
+<section id="backupView" class="view">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Your data</p>
@@ -163,6 +223,88 @@
         </div>
       </section>
     </main>
+
+
+    <div id="settingsModal" class="modal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-settings></div>
+      <section class="modal-card glass" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+        <div class="modal-head">
+          <div>
+            <p class="eyebrow">Preferences</p>
+            <h2 id="settingsTitle">Settings</h2>
+          </div>
+          <button id="closeSettings" class="icon-btn" aria-label="Close settings">×</button>
+        </div>
+
+        <div class="settings-list">
+          <label class="setting-row">
+            <span><strong>Rest time</strong><small>Default countdown length</small></span>
+            <select id="settingRestTime">
+              <option value="30">30 sec</option>
+              <option value="45">45 sec</option>
+              <option value="60">60 sec</option>
+              <option value="90">90 sec</option>
+              <option value="120">120 sec</option>
+            </select>
+          </label>
+
+          <label class="setting-row">
+            <span><strong>Rest sound</strong><small>Sound played at zero</small></span>
+            <select id="settingSound">
+              <option value="chime">Chime</option>
+              <option value="bell">Bell</option>
+              <option value="beep">Beep</option>
+              <option value="gong">Gong</option>
+            </select>
+          </label>
+
+          <label class="setting-row">
+            <span><strong>Volume</strong><small>Timer sound level</small></span>
+            <input id="settingVolume" type="range" min="0" max="1" step="0.05">
+          </label>
+
+          <label class="setting-row">
+            <span><strong>Theme</strong><small>Accent colour</small></span>
+            <select id="settingTheme">
+              <option value="blue">Neon blue</option>
+              <option value="green">Electric green</option>
+              <option value="orange">Hot orange</option>
+              <option value="purple">Ultra violet</option>
+            </select>
+          </label>
+
+          <label class="setting-row switch-row">
+            <span><strong>Vibration</strong><small>Vibrate when rest finishes</small></span>
+            <input id="settingVibration" type="checkbox">
+          </label>
+
+          <label class="setting-row switch-row">
+            <span><strong>Voice prompt</strong><small>Say “rest complete”</small></span>
+            <input id="settingVoice" type="checkbox">
+          </label>
+
+          <label class="setting-row switch-row">
+            <span><strong>Auto-start rest</strong><small>Start after completing a set</small></span>
+            <input id="settingAutoRest" type="checkbox">
+          </label>
+
+          <label class="setting-row switch-row">
+            <span><strong>Keep screen awake</strong><small>Where supported by browser</small></span>
+            <input id="settingWakeLock" type="checkbox">
+          </label>
+
+          <label class="setting-row switch-row">
+            <span><strong>Larger text</strong><small>Increase workout text size</small></span>
+            <input id="settingLargeText" type="checkbox">
+          </label>
+        </div>
+
+        <div class="button-row settings-actions">
+          <button id="testSound">Test sound</button>
+          <button id="saveSettings" class="primary">Save settings</button>
+        </div>
+      </section>
+    </div>
 
     <footer>
       <p>Train close to failure, but keep 1 to 2 clean reps in reserve on most movements. Stop explosive exercises when speed or technique falls.</p>
