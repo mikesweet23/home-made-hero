@@ -429,11 +429,11 @@ footer {
 /* Persistent timer dock */
 .timer-dock {
   position: sticky;
-  top: max(8px, env(safe-area-inset-top));
+  top: max(6px, env(safe-area-inset-top));
   z-index: 50;
-  padding: 6px;
-  margin-inline: -6px;
-  border-radius: 25px;
+  padding: 4px;
+  margin-inline: -4px;
+  border-radius: 22px;
   background: linear-gradient(180deg, rgba(5,7,10,.96), rgba(5,7,10,.82));
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
@@ -483,17 +483,28 @@ footer {
   }
 
   .timer-dock .timer-card {
-    padding: 10px;
-    border-radius: 17px;
+    padding: 8px 9px;
+    border-radius: 15px;
   }
 
   .timer-dock .big-time {
-    margin: 5px 0 8px;
-    font-size: clamp(1.65rem, 8vw, 2.5rem);
+    margin: 3px 0 6px;
+    font-size: clamp(1.45rem, 7vw, 2.2rem);
   }
 
   .timer-dock .card-topline {
     font-size: .61rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  .timer-dock .card-topline #workoutState {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .timer-dock .rest-ring-wrap {
+    margin: 2px auto 6px;
   }
 
   .timer-dock .button-row {
@@ -501,15 +512,21 @@ footer {
   }
 
   .timer-dock button {
-    min-height: 36px;
-    padding: 7px 9px;
+    min-height: 33px;
+    padding: 6px 8px;
     font-size: .75rem;
   }
 }
 
 @media (max-width: 430px) {
-  .timer-dock .button-row button.ghost {
-    display: none;
+  .timer-dock .button-row {
+    flex-wrap: nowrap;
+  }
+  .timer-dock .button-row button {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 6px 4px;
+    font-size: .72rem;
   }
 }
 
@@ -567,7 +584,7 @@ body.large-text .history-card p {
 .ring-track,
 .ring-progress {
   fill: none;
-  stroke-width: 8;
+  stroke-width: 5;
 }
 .ring-track {
   stroke: rgba(255,255,255,.08);
@@ -584,7 +601,7 @@ body.large-text .history-card p {
   position: relative;
   z-index: 2;
   margin: 0;
-  font-size: clamp(2rem, 7vw, 3.35rem);
+  font-size: clamp(1.6rem, 5.5vw, 2.6rem);
   color: var(--accent);
 }
 
@@ -717,8 +734,8 @@ canvas {
 @media (max-width: 430px) {
   .section-tabs { grid-template-columns: repeat(2, 1fr); }
   .body-grid { grid-template-columns: 1fr; }
-  .rest-ring-wrap { width: 122px; }
-  .ring-time { font-size: 1.85rem; }
+  .rest-ring-wrap { width: 108px; }
+  .ring-time { font-size: 1.5rem; }
 }
 
 .performance-row {
