@@ -991,15 +991,22 @@ async function renderSpotify() {
   const trackState = await spotifyFetchState();
   if (!trackState || trackState.empty || !trackState.item) {
     $("spotifyTrackName").textContent = "Nothing playing";
-    $("spotifyArtistName").textContent = "Open Spotify on a device to start";
-    $("spotifyArt").src = "";
+    $("spotifyArtistName").textContent = "Open Spotify and press play on a track";
+    $("spotifyArt").hidden = true;
+    $("spotifyArt").removeAttribute("src");
     $("spotifyPlayPause").textContent = "▶";
     return;
   }
   $("spotifyTrackName").textContent = trackState.item.name;
   $("spotifyArtistName").textContent = trackState.item.artists.map(a => a.name).join(", ");
   const art = trackState.item.album?.images?.[trackState.item.album.images.length - 1];
-  $("spotifyArt").src = art ? art.url : "";
+  if (art) {
+    $("spotifyArt").src = art.url;
+    $("spotifyArt").hidden = false;
+  } else {
+    $("spotifyArt").removeAttribute("src");
+    $("spotifyArt").hidden = true;
+  }
   $("spotifyPlayPause").textContent = trackState.is_playing ? "⏸" : "▶";
 }
 
