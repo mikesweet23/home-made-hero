@@ -37,3 +37,9 @@ PREMIUM UPDATE
 - Body weight and measurement tracking.
 - Completed workout calendar remains in the 35 day plan.
 - Backup/export now includes all new settings, progress and body data.
+
+
+IBIZA UPDATE
+- Ibiza sunset look and feel: warm sunset background and recoloured themes (Ibiza Sunset, Lagoon Teal, Golden Hour, Bougainvillea).
+- Added a fifth workout: Compound Full Body, using dumbbells, kettlebells and a bench.
+- Added a days-to-Ibiza countdown under the app title.
