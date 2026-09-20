@@ -59,6 +59,26 @@
       </article>
     </section>
 
+    <section class="glass spotify-card" id="spotifyCard">
+      <div class="card-topline">
+        <span>Now playing</span>
+        <button id="spotifyConnectBtn" class="ghost compact">Connect Spotify</button>
+      </div>
+      <div id="spotifyNowPlaying" class="spotify-now-playing" hidden>
+        <img id="spotifyArt" class="spotify-art" alt="">
+        <div class="spotify-meta">
+          <div id="spotifyTrackName" class="spotify-track">—</div>
+          <div id="spotifyArtistName" class="spotify-artist"></div>
+        </div>
+      </div>
+      <p id="spotifyEmpty" class="spotify-empty">Connect Spotify to control playback from here.</p>
+      <div class="button-row spotify-controls" id="spotifyControls" hidden>
+        <button id="spotifyPrev" aria-label="Previous track">⏮</button>
+        <button id="spotifyPlayPause" class="primary" aria-label="Play or pause">▶</button>
+        <button id="spotifyNext" aria-label="Next track">⏭</button>
+      </div>
+    </section>
+
     <section class="glass control-panel">
       <div class="day-row">
         <div>

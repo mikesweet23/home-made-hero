@@ -773,3 +773,45 @@ canvas {
 @media (max-width: 520px) {
   .performance-row { margin-left: 0; }
 }
+
+.spotify-card {
+  margin-top: 12px;
+  padding: 14px 16px;
+  border-radius: 22px;
+}
+.spotify-now-playing {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 10px 0;
+}
+.spotify-art {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  background: var(--panel-raised);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.spotify-meta { min-width: 0; }
+.spotify-track {
+  font-weight: 750;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.spotify-artist {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: .85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.spotify-empty {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: .88rem;
+}
+.spotify-controls { justify-content: center; margin-top: 4px; }
+.spotify-controls button { min-width: 64px; }
