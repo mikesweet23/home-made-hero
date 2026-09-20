@@ -62,6 +62,22 @@ const workouts = [
       ["Bench Step Ups with Knee Drive", "Each leg"],
       ["Hanging Knee Raises", "Or reverse crunches"]
     ]
+  },
+  {
+    name: "Compound Full Body",
+    short: "Compound",
+    intro: "Heavy multi-joint strength work for the whole body using dumbbells, kettlebells and a bench.",
+    exercises: [
+      ["Flat Dumbbell Bench Press", "15 to 30 reps"],
+      ["Kettlebell Goblet Squats", "15 to 30 reps"],
+      ["Bulgarian Split Squats, Rear Foot on Bench", "Each leg · dumbbells"],
+      ["Dumbbell Romanian Deadlifts", "15 to 30 reps · 3 second lowering"],
+      ["Kettlebell Clean and Press", "Each side · controlled reps"],
+      ["Bench Supported Renegade Rows", "Each side · dumbbells"],
+      ["Dumbbell Thrusters", "15 to 25 reps"],
+      ["Single Arm Kettlebell Swings", "Each side · powerful reps"],
+      ["Dumbbell Step Ups on Bench", "Each leg · knee drive"]
+    ]
   }
 ];
 
@@ -143,6 +159,19 @@ function formatTime(total) {
   return h
     ? `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`
     : `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
+
+function renderIbizaCountdown() {
+  const el = $("ibizaCountdown");
+  if (!el) return;
+  const target = new Date(2026, 9, 16);
+  const now = new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const diffDays = Math.round((target - startOfToday) / 86400000);
+  if (diffDays > 1) el.textContent = `☀️ ${diffDays} days to Ibiza`;
+  else if (diffDays === 1) el.textContent = `☀️ 1 day to Ibiza — pack your bags`;
+  else if (diffDays === 0) el.textContent = `☀️ Ibiza starts today — have an amazing trip`;
+  else el.textContent = `☀️ Hope Ibiza was unforgettable`;
 }
 
 function renderAll() {
@@ -669,7 +698,7 @@ function drawLineChart(canvas, labels, values, title) {
   const range = Math.max(1, max - min);
 
   ctx.font = "13px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
-  ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--muted").trim() || "#9eabba";
+  ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--muted").trim() || "#cbb3c8";
   ctx.fillText(title, pad.left, 18);
 
   ctx.strokeStyle = "rgba(255,255,255,.10)";
@@ -689,7 +718,7 @@ function drawLineChart(canvas, labels, values, title) {
     return;
   }
 
-  const accent = getComputedStyle(document.body).getPropertyValue("--accent").trim() || "#6cecff";
+  const accent = getComputedStyle(document.body).getPropertyValue("--accent").trim() || "#ff9466";
   ctx.strokeStyle = accent;
   ctx.lineWidth = 3;
   ctx.beginPath();
@@ -705,7 +734,7 @@ function drawLineChart(canvas, labels, values, title) {
     const x = values.length === 1 ? pad.left + w/2 : pad.left + (w*i/(values.length-1));
     const y = pad.top + h - ((v-min)/range)*h;
     ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--muted").trim() || "#9eabba";
+    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--muted").trim() || "#cbb3c8";
     ctx.fillText(String(labels[i]), x-10, pad.top+h+24);
     ctx.fillStyle = accent;
   });
@@ -827,6 +856,7 @@ $("bodyDate").value = new Date().toISOString().slice(0,10);
 applySettings();
 renderProgress();
 renderBody();
+renderIbizaCountdown();
 
 
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
