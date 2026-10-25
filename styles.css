@@ -54,7 +54,7 @@ button { cursor: pointer; }
 .app-shell {
   width: min(980px, 100%);
   margin: 0 auto;
-  padding: 18px 14px 64px;
+  padding: calc(18px + env(safe-area-inset-top, 0px)) 14px 64px;
 }
 
 .top {
@@ -661,9 +661,9 @@ body.large-text .history-card p {
 .modal-card {
   position: relative;
   width: min(560px, calc(100% - 22px));
-  max-height: calc(100vh - 30px);
+  max-height: calc(100vh - 30px - env(safe-area-inset-top, 0px));
   overflow: auto;
-  margin: 15px auto;
+  margin: max(15px, env(safe-area-inset-top, 0px)) auto 15px;
   padding: 18px;
   border-radius: 24px;
 }
