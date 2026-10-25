@@ -853,3 +853,62 @@ canvas {
 }
 .reminder-text span { white-space: nowrap; }
 .reminder-text strong { color: var(--accent); }
+
+.warmup-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  text-align: left;
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), color-mix(in srgb, var(--accent-strong) 8%, transparent));
+}
+.warmup-btn-icon { font-size: 1.6rem; line-height: 1; }
+.warmup-btn strong, .warmup-btn small { display: block; }
+.warmup-btn small { margin-top: 3px; color: var(--muted); font-weight: 600; }
+
+.warmup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: grid;
+  place-items: center;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  background: rgba(4, 8, 18, .95);
+  backdrop-filter: blur(14px);
+  overflow: auto;
+}
+.warmup-card { width: min(520px, 100%); text-align: center; }
+.warmup-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  color: var(--muted);
+  font-size: .85rem;
+  font-variant-numeric: tabular-nums;
+}
+.warmup-move { margin: 10px 0 8px; font-size: clamp(1.7rem, 7vw, 2.6rem); }
+.warmup-how { min-height: 3em; margin-bottom: 8px; color: var(--muted); line-height: 1.5; }
+.warmup-ring-wrap {
+  position: relative;
+  width: min(280px, 72vw);
+  aspect-ratio: 1;
+  margin: 6px auto 14px;
+  display: grid;
+  place-items: center;
+}
+.warmup-ring-wrap .ring-track, .warmup-ring-wrap .ring-progress { stroke-width: 6; }
+.warmup-countdown {
+  position: relative;
+  font-size: clamp(4rem, 22vw, 6.5rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+  text-shadow: 0 0 28px color-mix(in srgb, var(--accent-strong) 35%, transparent);
+}
+.warmup-next { margin-bottom: 16px; color: var(--muted); }
+.warmup-actions { justify-content: center; }
+.warmup-actions button { min-width: 96px; }
