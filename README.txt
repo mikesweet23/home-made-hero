@@ -43,3 +43,10 @@ IBIZA UPDATE
 - Ibiza sunset look and feel: warm sunset background and recoloured themes (Ibiza Sunset, Lagoon Teal, Golden Hour, Bougainvillea).
 - Added a fifth workout: Compound Full Body, using dumbbells, kettlebells and a bench.
 - Added a days-to-Ibiza countdown under the app title.
+
+
+FESTIVE UPDATE
+- End of 2026 look and feel: midnight navy and pine background with a snowy star-field and gold accents. Themes are now Midnight Gold, Pine Green, Berry Red and Frost Blue.
+- The Ibiza countdown is replaced by a countdown to Christmas, then New Year's Eve.
+- Added a daily reminder card: breakfast and lunch max 400 kcal each.
+- Fixed hidden elements (such as the Spotify controls before connecting) still showing.
