@@ -147,6 +147,10 @@
           <button id="clearSession" class="ghost compact">Clear</button>
         </div>
         <p id="workoutIntro" class="section-copy"></p>
+        <button id="warmupBtn" class="warmup-btn">
+          <span class="warmup-btn-icon" aria-hidden="true">🔥</span>
+          <span><strong>Cold start warm-up</strong><small>Optional · 5 minutes · 7 moves</small></span>
+        </button>
         <div id="exerciseList" class="exercise-list"></div>
         <div class="session-actions">
           <button id="completeSession" class="primary wide">Complete workout</button>
@@ -256,6 +260,30 @@
       </section>
     </main>
 
+
+    <div id="warmupOverlay" class="warmup-overlay" role="dialog" aria-modal="true" aria-labelledby="warmupMove" hidden>
+      <div class="warmup-card">
+        <div class="warmup-top">
+          <p id="warmupStep" class="eyebrow">Move 1 of 7</p>
+          <span id="warmupTotal">05:00 left</span>
+        </div>
+        <h2 id="warmupMove" class="warmup-move"></h2>
+        <p id="warmupHow" class="warmup-how"></p>
+        <div class="warmup-ring-wrap">
+          <svg class="rest-ring" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ring-track" cx="60" cy="60" r="50"></circle>
+            <circle id="warmupRingProgress" class="ring-progress" cx="60" cy="60" r="50"></circle>
+          </svg>
+          <div id="warmupCountdown" class="warmup-countdown" aria-live="polite">60</div>
+        </div>
+        <p id="warmupNext" class="warmup-next"></p>
+        <div class="button-row warmup-actions">
+          <button id="warmupPause">Pause</button>
+          <button id="warmupSkip">Skip move</button>
+          <button id="warmupEnd" class="ghost">End</button>
+        </div>
+      </div>
+    </div>
 
     <div id="settingsModal" class="modal" aria-hidden="true">
       <div class="modal-backdrop" data-close-settings></div>

@@ -831,6 +831,104 @@ function saveBodyEntry() {
   renderBody();
 }
 
+/* Cold start warm-up */
+const warmupMoves = [
+  { name: "Jumping jacks", how: "Light and springy. Arms overhead as your feet go wide, then back together.", seconds: 60 },
+  { name: "Hip circles: left", how: "Hands on hips, feet shoulder width. Big, slow circles to the left.", seconds: 30 },
+  { name: "Hip circles: right", how: "Same again, circling to the right.", seconds: 30 },
+  { name: "Arm swings with mini squats", how: "Swing your arms forward and back as you dip into a shallow squat.", seconds: 60 },
+  { name: "Kicks and back leg swings: left", how: "Hold something for balance. Swing your left leg forward into a kick, then back behind you.", seconds: 30 },
+  { name: "Kicks and back leg swings: right", how: "Switch sides. Swing your right leg forward, then back.", seconds: 30 },
+  { name: "Cat cow stretches", how: "On hands and knees. Round your back up, then let it dip as you lift your chest. Slow breaths.", seconds: 60 }
+];
+
+let warmupIndex = 0;
+let warmupRemaining = 0;
+let warmupInterval = null;
+
+function warmupSecondsLeft() {
+  return warmupRemaining + warmupMoves.slice(warmupIndex + 1).reduce((sum, move) => sum + move.seconds, 0);
+}
+
+function renderWarmup() {
+  const move = warmupMoves[warmupIndex];
+  const next = warmupMoves[warmupIndex + 1];
+  $("warmupStep").textContent = `Move ${warmupIndex + 1} of ${warmupMoves.length}`;
+  $("warmupTotal").textContent = `${formatTime(warmupSecondsLeft())} left`;
+  $("warmupMove").textContent = move.name;
+  $("warmupHow").textContent = move.how;
+  $("warmupCountdown").textContent = warmupRemaining;
+  $("warmupRingProgress").style.strokeDashoffset = String(314.159 * (1 - warmupRemaining / move.seconds));
+  $("warmupNext").textContent = next ? `Next: ${next.name}` : "Last move";
+}
+
+function announceWarmupMove() {
+  if (state.settings.vibration && "vibrate" in navigator) navigator.vibrate(200);
+  if (state.settings.voice && "speechSynthesis" in window) {
+    speechSynthesis.cancel();
+    speechSynthesis.speak(new SpeechSynthesisUtterance(warmupMoves[warmupIndex].name));
+  }
+}
+
+function runWarmupTimer() {
+  clearInterval(warmupInterval);
+  warmupInterval = setInterval(() => {
+    warmupRemaining -= 1;
+    if (warmupRemaining <= 0) nextWarmupMove();
+    else renderWarmup();
+  }, 1000);
+  $("warmupPause").textContent = "Pause";
+}
+
+function startWarmup() {
+  prepareAudio();
+  warmupIndex = 0;
+  warmupRemaining = warmupMoves[0].seconds;
+  $("warmupOverlay").hidden = false;
+  renderWarmup();
+  announceWarmupMove();
+  runWarmupTimer();
+}
+
+function nextWarmupMove() {
+  if (warmupIndex >= warmupMoves.length - 1) {
+    finishWarmup();
+    return;
+  }
+  warmupIndex += 1;
+  warmupRemaining = warmupMoves[warmupIndex].seconds;
+  playRestChime();
+  renderWarmup();
+  announceWarmupMove();
+}
+
+function closeWarmup() {
+  clearInterval(warmupInterval);
+  warmupInterval = null;
+  $("warmupOverlay").hidden = true;
+}
+
+function finishWarmup() {
+  closeWarmup();
+  playRestChime();
+  showScreenGlow();
+  if (state.settings.vibration && "vibrate" in navigator) navigator.vibrate([220, 100, 320]);
+  $("warmupBtn").querySelector("small").textContent = "Done · tap to run it again";
+}
+
+$("warmupBtn").addEventListener("click", startWarmup);
+$("warmupSkip").addEventListener("click", nextWarmupMove);
+$("warmupEnd").addEventListener("click", closeWarmup);
+$("warmupPause").addEventListener("click", () => {
+  if (warmupInterval) {
+    clearInterval(warmupInterval);
+    warmupInterval = null;
+    $("warmupPause").textContent = "Resume";
+  } else {
+    runWarmupTimer();
+  }
+});
+
 /* Spotify now-playing controls */
 const SPOTIFY_CLIENT_ID = "1866785d98a442dcbc6c52a005605ef7";
 const SPOTIFY_REDIRECT_URI = "https://mikesweet23.github.io/home-made-hero/";
