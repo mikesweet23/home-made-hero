@@ -50,3 +50,7 @@ FESTIVE UPDATE
 - The Ibiza countdown is replaced by a countdown to Christmas, then New Year's Eve.
 - Added a daily reminder card: breakfast and lunch max 400 kcal each.
 - Fixed hidden elements (such as the Spotify controls before connecting) still showing.
+
+
+UPDATE FIX
+- The offline cache now loads fresh files first and only uses the saved copy when offline, so new versions reach the installed app without clearing anything. Close and reopen the app once or twice after a deploy.

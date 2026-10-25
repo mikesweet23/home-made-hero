@@ -1,4 +1,4 @@
-const CACHE = "home-made-hero-v3";
+const CACHE = "home-made-hero-v4";
 const FILES = [
   "./",
   "./index.html",
@@ -10,7 +10,9 @@ const FILES = [
 ];
 
 self.addEventListener("install", event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES)));
+  event.waitUntil(
+    caches.open(CACHE).then(cache => cache.addAll(FILES.map(file => new Request(file, { cache: "reload" }))))
+  );
   self.skipWaiting();
 });
 
@@ -22,7 +24,19 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
+  const request = event.request;
+  const url = new URL(request.url);
+  if (request.method !== "GET" || url.origin !== self.location.origin) return;
+
   event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request))
+    fetch(request, { cache: "no-cache" })
+      .then(response => {
+        if (response.ok && !url.search) {
+          const copy = response.clone();
+          caches.open(CACHE).then(cache => cache.put(request, copy));
+        }
+        return response;
+      })
+      .catch(() => caches.match(request, { ignoreSearch: true }))
   );
 });
