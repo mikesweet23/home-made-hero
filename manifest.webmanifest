@@ -4,8 +4,8 @@
   "description": "A five week full body home workout tracker.",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#170b21",
-  "theme_color": "#170b21",
+  "background_color": "#070d1c",
+  "theme_color": "#070d1c",
   "icons": [
     {
       "src": "icon-192.svg",

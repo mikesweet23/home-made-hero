@@ -161,17 +161,23 @@ function formatTime(total) {
     : `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
 }
 
-function renderIbizaCountdown() {
-  const el = $("ibizaCountdown");
+function renderFestiveCountdown() {
+  const el = $("festiveCountdown");
   if (!el) return;
-  const target = new Date(2026, 9, 16);
   const now = new Date();
   const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const diffDays = Math.round((target - startOfToday) / 86400000);
-  if (diffDays > 1) el.textContent = `☀️ ${diffDays} days to Ibiza`;
-  else if (diffDays === 1) el.textContent = `☀️ 1 day to Ibiza — pack your bags`;
-  else if (diffDays === 0) el.textContent = `☀️ Ibiza starts today — have an amazing trip`;
-  else el.textContent = `☀️ Hope Ibiza was unforgettable`;
+  const daysUntil = (month, day) => Math.round((new Date(2026, month, day) - startOfToday) / 86400000);
+  const christmas = daysUntil(11, 25);
+  const newYearsEve = daysUntil(11, 31);
+  el.hidden = false;
+  if (christmas > 1) el.textContent = `🎄 ${christmas} days to Christmas`;
+  else if (christmas === 1) el.textContent = "🎄 1 day to Christmas";
+  else if (christmas === 0) el.textContent = "🎄 Merry Christmas!";
+  else if (newYearsEve > 1) el.textContent = `🎆 ${newYearsEve} days to New Year's Eve`;
+  else if (newYearsEve === 1) el.textContent = "🎆 1 day to New Year's Eve";
+  else if (newYearsEve === 0) el.textContent = "🎆 Happy New Year's Eve!";
+  else if (newYearsEve === -1) el.textContent = "🎆 Happy New Year!";
+  else el.hidden = true;
 }
 
 function renderAll() {
@@ -698,7 +704,7 @@ function drawLineChart(canvas, labels, values, title) {
   const range = Math.max(1, max - min);
 
   ctx.font = "13px -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif";
-  ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--muted").trim() || "#cbb3c8";
+  ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--muted").trim() || "#a9b9d6";
   ctx.fillText(title, pad.left, 18);
 
   ctx.strokeStyle = "rgba(255,255,255,.10)";
@@ -718,7 +724,7 @@ function drawLineChart(canvas, labels, values, title) {
     return;
   }
 
-  const accent = getComputedStyle(document.body).getPropertyValue("--accent").trim() || "#ff9466";
+  const accent = getComputedStyle(document.body).getPropertyValue("--accent").trim() || "#f6c453";
   ctx.strokeStyle = accent;
   ctx.lineWidth = 3;
   ctx.beginPath();
@@ -734,7 +740,7 @@ function drawLineChart(canvas, labels, values, title) {
     const x = values.length === 1 ? pad.left + w/2 : pad.left + (w*i/(values.length-1));
     const y = pad.top + h - ((v-min)/range)*h;
     ctx.beginPath(); ctx.arc(x,y,5,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--muted").trim() || "#cbb3c8";
+    ctx.fillStyle = getComputedStyle(document.body).getPropertyValue("--muted").trim() || "#a9b9d6";
     ctx.fillText(String(labels[i]), x-10, pad.top+h+24);
     ctx.fillStyle = accent;
   });
@@ -1075,7 +1081,7 @@ $("bodyDate").value = new Date().toISOString().slice(0,10);
 applySettings();
 renderProgress();
 renderBody();
-renderIbizaCountdown();
+renderFestiveCountdown();
 spotifyHandleRedirect().then(renderSpotify);
 
 
